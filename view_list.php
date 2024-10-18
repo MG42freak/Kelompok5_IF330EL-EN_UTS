@@ -10,7 +10,7 @@ if (!isset($_SESSION['user_id'])) {
 
 // Check if list ID is provided
 if (!isset($_GET['id'])) {
-    header("Location: dashboard.php");
+    header("Location: user_dashboard.php");
     exit();
 }
 
@@ -54,3 +54,44 @@ $stmt = $pdo->prepare("SELECT * FROM tasks WHERE list_id = ? ORDER BY created_at
 $stmt->execute([$list_id]);
 $tasks = $stmt->fetchAll();
 ?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?php echo htmlspecialchars($list['title']); ?> - Tasks</title>
+</head>
+<body>
+    <h2><?php echo htmlspecialchars($list['title']); ?> - Tasks</h2>
+    
+    <h3>Add New Task</h3>
+    <form method="post" action="">
+        <input type="text" name="task_description" placeholder="Enter task description" required>
+        <input type="submit" name="add_task" value="Add Task">
+    </form>
+
+    <h3>Tasks</h3>
+    <?php if (empty($tasks)): ?>
+        <p>No tasks in this list yet.</p>
+    <?php else: ?>
+        <ul>
+        <?php foreach ($tasks as $task): ?>
+            <li>
+                <form method="post" action="" style="display: inline;">
+                    <input type="hidden" name="task_id" value="<?php echo $task['id']; ?>">
+                    <input type="checkbox" name="toggle_task" onchange="this.form.submit()" <?php echo $task['is_completed'] ? 'checked' : ''; ?>>
+                </form>
+                <?php echo htmlspecialchars($task['description']); ?>
+                <form method="post" action="" style="display: inline;">
+                    <input type="hidden" name="task_id" value="<?php echo $task['id']; ?>">
+                    <input type="submit" name="delete_task" value="Delete" onclick="return confirm('Are you sure you want to delete this task?');">
+                </form>
+            </li>
+        <?php endforeach; ?>
+        </ul>
+    <?php endif; ?>
+
+    <p><a href="user_dashboard.php">Back to Dashboard</a></p>
+</body>
+</html>
