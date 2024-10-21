@@ -4,8 +4,7 @@ require_once 'db_connection.php';
 function sanitize_input($data) {
     $data = trim($data);
     $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
+    return htmlspecialchars($data);
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {

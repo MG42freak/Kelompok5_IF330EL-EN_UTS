@@ -5,8 +5,7 @@ require_once 'db_connection.php';
 function sanitize_input($data) {
     $data = trim($data);
     $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
+    return htmlspecialchars($data);
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -24,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['username'] = $user['username'];
 
-            header("Location: dashboard.php");
+            header("Location: user_dashboard.php");
             exit();
         } else {
             $error = "Invalid email or password.";
