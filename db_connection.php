@@ -1,6 +1,6 @@
 <?php
 $host = 'localhost';
-$dbname = 'todo_app';
+$dbname = 'project_database';
 $username = 'your_username';
 $password = 'your_password';
 
