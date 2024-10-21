@@ -3,11 +3,14 @@ session_start();
 require_once 'db_connection.php';
 
 function sanitize_input($data) {
-    return htmlspecialchars(trim($data));
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
+    $email = sanitize_input(filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL));
     $password = sanitize_input($_POST['password']);
 
     if (empty($email) || empty($password)) {
